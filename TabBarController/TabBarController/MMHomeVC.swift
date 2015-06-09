@@ -2,29 +2,15 @@
 //  MMHomeVC.swift
 //  MM
 //
-//  Created by Andy Boariu on 08/11/14.
-//  Copyright (c) 2014 Test. All rights reserved.
+//  Created by Boariu Andy on 6/9/15.
+//  Copyright (c) 2015 Boariu Andy. All rights reserved.
 //
 
 import UIKit
 import AVFoundation
-import MediaPlayer
-
-let k_UIActionSheet_Tag_NewAsset                        = 99999
-let k_UIActionSheet_Tag_AddToProperty                   = 99998
-let k_UIActionSheet_Tag_NewPhotoCloudOptions            = 99997
-
-protocol MMHomeVCDelegate
-{
-    func didTakePictures()
-    func didChoosePictures()
-}
 
 class MMHomeVC: UITabBarController, UITabBarControllerDelegate, UIActionSheetDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate
 {
-    var delegateHomeVC    : MMHomeVCDelegate?
-    
-    var imagePicker = UIImagePickerController()
     var btnNewMoment = UIButton()
 
     // MARK: - ViewController Methods
@@ -48,6 +34,7 @@ class MMHomeVC: UITabBarController, UITabBarControllerDelegate, UIActionSheetDel
             var tabBarItem1 = arrTabBarItems[0] as! UITabBarItem
             var tabBarItem2 = arrTabBarItems[1] as! UITabBarItem
             
+            //=>    Checking device model, and get image corectly for specific device
             var strDeviceModel = "i5"
             if Device.IS_4_INCHES_OR_SMALLER() {
                 strDeviceModel = "i5"
@@ -60,6 +47,8 @@ class MMHomeVC: UITabBarController, UITabBarControllerDelegate, UIActionSheetDel
                     if Device.IS_5_5_INCHES() {
                         strDeviceModel = "i6plus"
             }
+            
+            // Using UIImageRenderingMode.AlwaysOriginal is MANDATORY when we set images for tab bar items!!!!!!
             
             let imgHomeTabNormal  = UIImage(named: "tabHome_normal_\(strDeviceModel)")?.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
             let imgHomeTabSelected  = UIImage(named: "tabHome_selected_\(strDeviceModel)")?.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
@@ -82,6 +71,7 @@ class MMHomeVC: UITabBarController, UITabBarControllerDelegate, UIActionSheetDel
             UITabBar.appearance().backgroundImage               = imgTabBarBackground
         }
 
+        //=>    Create button programatically, and place it in the middle of tab bar
         addNewMomentButton()
     }
     
