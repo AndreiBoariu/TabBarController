@@ -2,7 +2,7 @@
 //  Utils.swift
 //  Mumo
 //
-//  Created by Beny Boariu on 24/02/15.
+//  Created by Andy Boariu on 24/02/15.
 //  Copyright (c) 2015 Mumo. All rights reserved.
 //
 
@@ -125,10 +125,10 @@ extension UIImage {
     func imageWithColor(tintColor: UIColor) -> UIImage {
         UIGraphicsBeginImageContextWithOptions(self.size, false, self.scale)
         
-        let context = UIGraphicsGetCurrentContext() as CGContextRef
+        let context = UIGraphicsGetCurrentContext()! as CGContextRef
         CGContextTranslateCTM(context, 0, self.size.height)
         CGContextScaleCTM(context, 1.0, -1.0);
-        CGContextSetBlendMode(context, kCGBlendModeNormal)
+        CGContextSetBlendMode(context, CGBlendMode.Normal)
         
         let rect = CGRectMake(0, 0, self.size.width, self.size.height) as CGRect
         CGContextClipToMask(context, rect, self.CGImage)
@@ -152,7 +152,7 @@ extension Array
     mutating func removeObject<U: Equatable>(object: U)
     {
         var index: Int?
-        for (idx, objectToCompare) in enumerate(self)
+        for (idx, objectToCompare) in self.enumerate()
         {
             if let to = objectToCompare as? U
             {
@@ -202,13 +202,13 @@ extension NSTimeInterval {
     }
     /// Get the miliseconds component
     public var milisecondComponent: Int {
-        var (intPart, fracPart) = modf(self)
+        var (_, fracPart) = modf(self)
         return Int(fracPart * 100)
     }
     
     ///
     /// Get this NSTimeInterval instance as a formatted string
-    /// :param: useFraction Optionally appends the miliseconds to the string
+    /// - parameter useFraction: Optionally appends the miliseconds to the string
     ///
     public func getFormattedInterval(miliseconds useFraction: Bool) -> String {
         let hoursStr = hourComponent < 10 ? "0" + String(hourComponent) : String(hourComponent)
@@ -228,7 +228,7 @@ extension NSTimeInterval {
 extension String {
     
     subscript (i: Int) -> Character {
-        return self[advance(self.startIndex, i)]
+        return self[self.startIndex.advancedBy(i)]
     }
     
     subscript (i: Int) -> String {
@@ -236,16 +236,16 @@ extension String {
     }
     
     subscript (r: Range<Int>) -> String {
-        return substringWithRange(Range(start: advance(startIndex, r.startIndex), end: advance(startIndex, r.endIndex)))
+        return substringWithRange(Range(start: startIndex.advancedBy(r.startIndex), end: startIndex.advancedBy(r.endIndex)))
     }
     
     func characterAtIndex(index: Int) -> Character? {
         var cur = 0
-        for char in self {
+        for char in self.characters {
             if cur == index {
                 return char
             }
-            cur++
+            cur += 1
         }
         return nil
     }

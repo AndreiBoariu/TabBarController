@@ -23,16 +23,18 @@ class MMHomeVC: UITabBarController, UITabBarControllerDelegate, UIActionSheetDel
         self.delegate = self
         
         //=>    Keep white color for tab images for both tab states (selected and unselected)
-        for item in tabBar.items as! [UITabBarItem] {
-            if let image = item.image {
-                item.image = image.imageWithColor(UIColor.whiteColor()).imageWithRenderingMode(.AlwaysOriginal)
+        if let arrItems = tabBar.items {
+            for item in arrItems {
+                if let image = item.image {
+                    item.image = image.imageWithColor(UIColor.whiteColor()).imageWithRenderingMode(.AlwaysOriginal)
+                }
             }
         }
         
         //=>    Add selected/unselected tab image
         if let arrTabBarItems = tabBar.items {
-            var tabBarItem1 = arrTabBarItems[0] as! UITabBarItem
-            var tabBarItem2 = arrTabBarItems[1] as! UITabBarItem
+            let tabBarItem1 = arrTabBarItems[0] 
+            let tabBarItem2 = arrTabBarItems[1] 
             
             //=>    Checking device model, and get image corectly for specific device
             var strDeviceModel = "i5"
@@ -97,7 +99,7 @@ class MMHomeVC: UITabBarController, UITabBarControllerDelegate, UIActionSheetDel
     // MARK: - Custom Methods
     
     func addNewMomentButton() {
-        btnNewMoment                      = UIButton.buttonWithType(UIButtonType.Custom) as! UIButton
+        btnNewMoment                      = UIButton(type: UIButtonType.Custom)
         btnNewMoment.frame                = CGRectMake(self.view.frame.size.width / 2 - 29, self.view.frame.size.height - 67, 58, 58)
         btnNewMoment.backgroundColor      = UIColor.clearColor()
         btnNewMoment.setImage(UIImage(named: "btnNewMoment"), forState: UIControlState.Normal)
